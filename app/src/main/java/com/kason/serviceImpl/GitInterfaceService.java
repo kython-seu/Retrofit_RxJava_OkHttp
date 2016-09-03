@@ -7,6 +7,7 @@ import com.kason.service.GitInterface;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -57,7 +58,8 @@ public class GitInterfaceService {
             Request request = chain.request();
             long t1 = System.nanoTime();
             Calendar calendar = Calendar.getInstance();
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat
+                    ("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
             String time = simpleDateFormat.format(calendar.getTime());
             Log.i(TAG, time+" Sending request "+request.url()
             +" on "+chain.connection()+"\n"+request.headers());
