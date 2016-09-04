@@ -4,9 +4,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.kason.service.GitInterface;
-import com.kason.bean.UserMessage;
-import com.kason.serviceImpl.GitInterfaceService;
+import com.kason.bean.DouBan;
+import com.kason.service.DouBanApiInterface;
+import com.kason.serviceImpl.DouBanService;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        GitInterface gitInterface = GitInterfaceService.getInstance().getGitInterface();
+        /*GitInterface gitInterface = GitInterfaceService.getInstance().getGitInterface();
         gitInterface.getUserMessage(USERNAME)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -39,6 +39,26 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onNext(UserMessage userMessage) {
                         Log.i(TAG, "result: "+userMessage.toString());
+                    }
+                });*/
+        DouBanApiInterface douBanApiInterface = DouBanService.getDouBanService().douBanApiInterface;
+
+        douBanApiInterface.getBookMessage("小王子","",0,3).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<DouBan>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "ERROR : "+e.getMessage() );
+                    }
+
+                    @Override
+                    public void onNext(DouBan douBan) {
+                        Log.i(TAG, "onNext: "+douBan.toString());
                     }
                 });
 
